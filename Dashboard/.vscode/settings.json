@@ -1,0 +1,11 @@
+{
+    "python.pythonPath": "/Users/matteopenna/anaconda3/bin/python",
+    "spellright.language": [
+        "en"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ]
+}
