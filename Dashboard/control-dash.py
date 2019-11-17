@@ -1,6 +1,7 @@
 from bottle import Bottle, route, run, static_file, debug, template, request
 import paho.mqtt.client as mqtt
 import time
+import json
 
 #create function for callback
 def on_publish(client,userdata,result):             
@@ -40,6 +41,21 @@ def send_killed():
             </body>
             </html>
             '''
+@route('/hyper_params/decision', method = 'POST')
+def send_decision_params():
+    #need to create a dict after usng the request.forms.get then make the dict into a json before mqtt publish
+    #decision_params = json.dump
+    #client.publish("hyper_params/decision", )
+
+@route('/hyper_params/image_processing', method = 'POST')
+def send_image_processing_params():
+
+    #client.publish('hyper_params/image_processing')
+
+@route('/hyper_params/image_capture', method = 'POST')   
+def send_image_capture_params():
+
+    #client.publish()
 
 @route('/speed_and_angle', method = 'POST')
 def process_data():

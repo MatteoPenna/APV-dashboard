@@ -64,6 +64,36 @@
   background: #4CAF50;
   cursor: pointer;
 }
+
+/*creating code for two columns*/
+* {
+  box-sizing: border-box;
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+}
+
+.left {
+  width: 20%;
+}
+
+.right {
+  width: 60%;
+}
+
+.middle {
+  width: 20%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 </style>
 </head>
 <body>
@@ -73,21 +103,87 @@
 and use the left and right arrow keys to change the steering of the APV.
 </p>
 
-<h2>Servo Slider</h2>
-<div class="slidecontainer">
-    <input type="range" min="-45" max="45" value="0" class="slider" id="steering">
-    <p>Turning Angle (servo angle in degrees): <span id="angle"></span></p>
+<div class="row">
+  <div class="column left" style="background-color:#bbb;">
+    <h3>Setting of hyper parameters of the image processing algorithm</h3>
+
+      <form action="hyper_params/image_processing" method = "POST">
+        k_size (int)<br>
+        <input type="text" name="k_size" value=""><br><br>
+        k_h (int):<br>
+        <input type="text" name="k_h" value=""><br><br>
+        k_w (int)<br>
+        <input type="text" name="k_w" value=""><br><br>
+        lead_thresh (int):<br>
+        <input type="text" name="lead_thresh" value=""><br><br>
+        maxObjs (int)<br>
+        <input type="text" name="maxObjs" value=""><br><br>
+        thresh (int):<br>
+        <input type="text" name="thresh" value=""><br><br>
+        min_edge (int)<br>
+        <input type="text" name="min_edge" value=""><br><br>
+        max_edge (int):<br>
+        <input type="text" name="max_edge" value=""><br><br>
+        grid_rows (int)<br>
+        <input type="text" name="grid_rows" value=""><br><br>
+        grid_columns (int):<br>
+        <input type="text" name="grid_columns" value=""><br><br>
+        scaling_constant (int):<br>
+        <input type="text" name="scaling_constant" value=""><br><br>
+        scaling_power (int):<br>
+        <input type="text" name="scaling_power" value=""><br><br>
+        <input type="submit" value="Submit">
+      </form>
+  </div>
+      
+  <div class="column middle" style="background-color:#bbb;">
+    <h3>Setting of hyper parameters of the decision making algorithm</h3>
+    <form action="hyper_params/decision" method = "POST">
+        dist_sensitivity (float):<br>
+        <input type="text" name="dist_sensitivity" value=""><br><br>
+        rpm_sensitivity (float):<br>
+        <input type="text" name="rpm_sensitivity" value=""><br><br>
+        catchup_sensitivity (float):<br>
+        <input type="text" name="catchup_sensitivity" value=""><br><br>
+        dist_set (float):<br>
+        <input type="text" name="dist_set" value=""><br><br>
+        ball_rad_m (float):<br>
+        <input type="text" name="ball_rad_m" value=""><br><br>
+        turn_sensitivity (float):<br>
+        <input type="text" name="turn_sensitivity" value=""><br><br>
+        turn_agression (float):<br>
+        <input type="text" name="turn_agression" value=""><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <form action="hyper_params/image_capture" method=>
+      image_resolution (int):<br>. 
+      <input type="text" name="resolution" value=""><br><br>
+      <input type="submit" value="Submit">
+    </form>
+      
+  </div>
+  
+  <div class="column right" style="background-color:#bbb;">
+    <h2>Servo Slider</h2>
+    <div class="slidecontainer">
+      <input type="range" min="-45" max="45" value="0" class="slider" id="steering">
+      <p>Turning Angle (servo angle in degrees): <span id="angle"></span></p>
+    </div>
+
+    <h2>Speed Control</h2>
+    <div class="slidecontainer">
+      <input type='range' min='-5' max='15' value='0' class='slider' id="speed">
+      <p>Speed (in km/h): <span id="value"></span></p>
+    </div>
+
+    <form action="killed" method = "POST">
+        <button class="button buttonstop" id="kill">Kill</button>
+    </form>
+
+  </div>
 </div>
 
-<h2>Speed Control</h2>
-<div class="slidecontainer">
-    <input type='range' min='-5' max='15' value='0' class='slider' id="speed">
-    <p>Speed (in km/h): <span id="value"></span></p>
-</div>
-
-<form action="killed" method = "POST">
-      <button class="button buttonstop" id="kill" >Kill</button>
-</form>
 
 </body>
 </html>
