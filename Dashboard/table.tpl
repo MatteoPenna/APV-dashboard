@@ -12,7 +12,8 @@
     .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
     .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
     .tg .tg-0lax{text-align:left;vertical-align:top}
-    </style>
+</style>
+
     <table class="tg" style="undefined;table-layout: fixed; width: 549px">
     <colgroup>
     <col style="width: 263px">

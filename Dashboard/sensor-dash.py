@@ -81,7 +81,7 @@ client.loop_start()
 #waiting fro connection
 time.sleep(0.1)
 
-#setting message callback functions
+#setting message callback functions for telemetry
 client.message_callback_add('telemetry/rpm',rpm_callback)
 client.message_callback_add('telemetry/ultra_dist',distance_callback)
 client.message_callback_add('telemetry/imu',imu_callback)

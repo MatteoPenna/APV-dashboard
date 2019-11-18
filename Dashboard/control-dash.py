@@ -1,4 +1,4 @@
-from bottle import Bottle, route, run, static_file, debug, template, request
+from bottle import Bottle, route, run, static_file, debug, template, request, get
 import paho.mqtt.client as mqtt
 import time
 import json
@@ -43,18 +43,19 @@ def send_killed():
             '''
 @route('/hyper_params/decision', method = 'POST')
 def send_decision_params():
+    pass
     #need to create a dict after usng the request.forms.get then make the dict into a json before mqtt publish
     #decision_params = json.dump
     #client.publish("hyper_params/decision", )
 
 @route('/hyper_params/image_processing', method = 'POST')
 def send_image_processing_params():
-
+    pass
     #client.publish('hyper_params/image_processing')
 
 @route('/hyper_params/image_capture', method = 'POST')   
 def send_image_capture_params():
-
+    pass
     #client.publish()
 
 @route('/speed_and_angle', method = 'POST')

@@ -19,7 +19,7 @@
 }
 
 .buttonstop {
-    background-color: #FF0000; /* Green */
+    background-color: #FF0000; /* Red */
     border: none;
     color: white;
     padding: 15px 32px;
@@ -153,11 +153,11 @@ and use the left and right arrow keys to change the steering of the APV.
         <input type="text" name="turn_sensitivity" value=""><br><br>
         turn_agression (float):<br>
         <input type="text" name="turn_agression" value=""><br><br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit"><br><br>
     </form>
 
     <form action="hyper_params/image_capture" method=>
-      image_resolution (int):<br>. 
+      image_resolution (int):<br> 
       <input type="text" name="resolution" value=""><br><br>
       <input type="submit" value="Submit">
     </form>
@@ -229,6 +229,14 @@ document.onkeydown = function(e) {
       
       output_steering.innerHTML = current_angle;
       output_speed.innerHTML = current_speed;
+
+      $.post("speed_and_angle", {
+        speed: String(current_speed),
+        angle: String(current_angle)
+      })
+      
+};
+
 /*
       slider_steering.oninput = function(){
       output_steering.innerHTML = this.value;
@@ -239,17 +247,6 @@ document.onkeydown = function(e) {
       }
 */      
 
-      $.post("speed_and_angle", {
-        speed: String(current_speed),
-        angle: String(current_angle)
-      })
-      
-};
-
-
-
- 
-
 /*
 $.post('localhost:8080/speed_and_angle', {
     speed : String(slider_speed)
@@ -257,23 +254,4 @@ $.post('localhost:8080/speed_and_angle', {
     })
 */
 
-
-
-/*
-const kill_button = document.getElementById('kill');
-
-kill_button.addEventListener('click', async _ => {
-  try {     
-    const response = await fetch('/killed', {
-      method: 'post',
-      body: 'kill=True'
-    });
-    console.log('Completed!', response);
-  } catch(err) {
-    console.error(`Error: ${err}`);
-  }
-
-});
-
-*/
 </script> 
