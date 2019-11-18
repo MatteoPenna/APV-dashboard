@@ -118,7 +118,7 @@ and use the left and right arrow keys to change the steering of the APV.
   <div class="column left" style="background-color:#bbb;">
     <h3>Setting of hyper parameters of the image processing algorithm</h3>
 
-      <form action="hyper_params/image_processing" method = "POST">
+      <form action="hyper_params/image_processing" method = "POST" id='image_processing'>
         k_size (int)<br>
         <input type="text" name="k_size" value=""><br><br>
         k_h (int):<br>
@@ -149,7 +149,7 @@ and use the left and right arrow keys to change the steering of the APV.
       
   <div class="column middle" style="background-color:#bbb;">
     <h3>Setting of hyper parameters of the decision making algorithm</h3>
-    <form action="hyper_params/decision" method = "POST">
+    <form action="hyper_params/decision" method = "POST" id='decision'>
         dist_sensitivity (float):<br>
         <input type="text" name="dist_sensitivity" value=""><br><br>
         rpm_sensitivity (float):<br>
@@ -167,7 +167,7 @@ and use the left and right arrow keys to change the steering of the APV.
         <input type="submit" value="Submit"><br><br>
     </form>
 
-    <form action="hyper_params/image_capture" method=>
+    <form action="hyper_params/image_capture" method="POST" id='resolution'>
       image_resolution (int):<br> 
       <input type="text" name="resolution" value=""><br><br>
       <input type="submit" value="Submit">
@@ -244,14 +244,85 @@ and use the left and right arrow keys to change the steering of the APV.
 </html>
 
 <script>
+//variables for the speed and angle sliders
 var slider_steering = document.getElementById("steering");
 var slider_speed = document.getElementById("speed")
 var output_steering = document.getElementById("angle");
 var output_speed = document.getElementById("value");
 
+//updating variables for speed and angle sliders
 var current_angle = parseInt(slider_steering.value);
 var current_speed = parseInt(slider_speed.value);
 
+//image_processing parameter variables
+var image_processing_obj = {
+  k_size : document.getElementsByName('k_size'),
+  k_h : document.getElementsByName('k_h'),
+  k_w : document.getElementsByName('k_w'),
+  lead_thresh : document.getElementsByName('lead_thresh'),
+  maxObjs : document.getElementsByName('maxObjs'),
+  thresh : document.getElementsByName('thresh'),
+  min_edge : document.getElementsByName('min_edge'),
+  max_edge : document.getElementsByName('max_edge'),
+  grid_rows : document.getElementsByName('grid_rows'),
+  grid_columns : document.getElementsByName('grid_columns'),
+  scaling_constant : document.getElementsByName('scaling_constant'),
+  scaling_power : document.getElementsByName('scaling_power')
+}; 
+var image_processing_data = JSON.stringify(image_processing_obj); 
+
+//decision_making parameter variables
+var decision_params_obj = {
+  dist_sensitivity : document.getElementsByName('dist_sensitivity'),
+  rpm_sensitivity : document.getElementsByName('rpm_sensitivity'),
+  catchup_sensitivity : document.getElementsByName('catchup_sensitivity'),
+  dist_set : document.getElementsByName('dist_set'),
+  ball_rad_m : document.getElementsByName('ball_rad_m'),
+  turn_sensitivity : document.getElementsByName('turn_sensitivity'),
+  turn_agression : document.getElementsByName('turn_aggression')
+}
+
+var resolution = JSON.stringify(resolution : document.getElementsByName('resolution')) 
+
+/*this code is for submitting requests to the webserver in json format
+for easy readout on the web server side*/
+$('#image_processing').click(function () {
+    $.ajax({
+      type: "POST",
+      url: 'hyper_params/image_processing',
+      data: image_processing_params,
+      success: function () {
+        console.log(data)
+      },
+      dataType: 'json'
+      });
+});
+
+$('#decision').click(function () {
+    $.ajax({
+      type: "POST",
+      url: 'hyper_params/decision',
+      data: decision_params,
+      success: function () {
+        console.log(data)
+      },
+      dataType: 'json'
+      });
+});
+
+$('#resolution').click(function () {
+    $.ajax({
+      type: "POST",
+      url: 'hyper_params/image_capture',
+      data: resolution,
+      success: function () {
+        console.log(data)
+      },
+      dataType: 'json'
+      });
+});
+
+//This code is for updating the data table
 $(document).ready(function () {
   
   var auto_refresh = setInterval(function () {

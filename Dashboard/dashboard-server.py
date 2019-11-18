@@ -147,20 +147,23 @@ while True:
                     '''
         @route('/hyper_params/decision', method = 'POST')
         def send_decision_params():
-            pass
-            #need to create a dict after usng the request.forms.get then make the dict into a json before mqtt publish
-            #decision_params = json.dump
-            #client.publish("hyper_params/decision", )
+            #pulling  values from POST
+            decision_params = request.json()
+            client.publish("hyper_params/decision",
+                json.dumps(decision_params), retain = True)
 
         @route('/hyper_params/image_processing', method = 'POST')
         def send_image_processing_params():
-            pass
-            #client.publish('hyper_params/image_processing')
+            #pulling values from POST
+            image_processing_params = request.json()
+            client.publish("hyper_params/decision",
+                json.dumps(image_processing_params), retain = True)           
 
         @route('/hyper_params/image_capture', method = 'POST')   
         def send_image_capture_params():
-            pass
-            #client.publish()
+            image_capture_params = request.json()
+            client.publish("hyper_params/decision",
+                json.dumps(image_capture_params), retain = True)
 
         @route('/speed_and_angle', method = 'POST')
         def process_data():
@@ -171,7 +174,7 @@ while True:
             #process html form and publish data to mqtt
             client.publish("command/wheel_speed", speed, retain = True) #publish to speed
             client.publish("command/steering", angle, retain = True) #publish to steering
-            
+
         @get('/get_data')
         def return_data():
             values_dict = grab_data(data)#grabs values from the data grab function
@@ -183,7 +186,6 @@ while True:
 
         run(host='localhost', port=8080, debug = True) #starts a built-in dev server
 
-    
     except KeyboardInterrupt:
         print("exiting")
         client.disconnect()
