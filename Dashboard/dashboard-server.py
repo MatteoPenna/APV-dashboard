@@ -2,6 +2,8 @@ from bottle import Bottle, route, run, static_file, debug, template, request, ge
 import paho.mqtt.client as mqtt
 import time
 import json
+import sys
+
 #declaring a global array for all of the data
 data = [0] * 6
 
@@ -156,14 +158,14 @@ while True:
         @route('/hyper_params/image_processing', method = 'POST')
         def send_image_processing_params():
             #pulling values from POST and publishing them
-            client.publish("hyper_params/decision",
+            client.publish("hyper_params/image_processing",
                 json.dumps(request.json), retain = True)
             print(json.dumps(request.json))           
 
         @route('/hyper_params/image_capture', method = 'POST')   
         def send_image_capture_params():
             image_capture_params = request.json
-            client.publish("hyper_params/decision",
+            client.publish("hyper_params/resolution",
                 json.dumps(image_capture_params), retain = True)
             print(image_capture_params) 
 
@@ -188,4 +190,5 @@ while True:
         print("exiting")
         client.disconnect()
         client.loop_stop()
+        sys.stderr.close()
         break
