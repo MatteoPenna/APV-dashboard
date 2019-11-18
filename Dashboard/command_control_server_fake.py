@@ -47,7 +47,7 @@ while True:
         for i in range(0,6):
             values[i] = random.randint(0,10)
 
-        time.sleep(0.1)
+        time.sleep(1)
 
         for i in range(0,6):
             client.publish('telemetry/' + valueName[i], values[i], retain=True)

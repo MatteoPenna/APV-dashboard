@@ -118,59 +118,59 @@ and use the left and right arrow keys to change the steering of the APV.
   <div class="column left" style="background-color:#bbb;">
     <h3>Setting of hyper parameters of the image processing algorithm</h3>
 
-      <form action="hyper_params/image_processing" method = "POST" id='image_processing'>
+      <form action="hyper_params/image_processing">
         k_size (int)<br>
-        <input type="text" name="k_size" value=""><br><br>
+        <input type="text" name="k_size" value="0"><br><br>
         k_h (int):<br>
-        <input type="text" name="k_h" value=""><br><br>
+        <input type="text" name="k_h" value="0"><br><br>
         k_w (int)<br>
-        <input type="text" name="k_w" value=""><br><br>
+        <input type="text" name="k_w" value="0"><br><br>
         lead_thresh (int):<br>
-        <input type="text" name="lead_thresh" value=""><br><br>
+        <input type="text" name="lead_thresh" value="0"><br><br>
         maxObjs (int)<br>
-        <input type="text" name="maxObjs" value=""><br><br>
+        <input type="text" name="maxObjs" value="0"><br><br>
         thresh (int):<br>
-        <input type="text" name="thresh" value=""><br><br>
+        <input type="text" name="thresh" value="0"><br><br>
         min_edge (int)<br>
-        <input type="text" name="min_edge" value=""><br><br>
+        <input type="text" name="min_edge" value="0"><br><br>
         max_edge (int):<br>
-        <input type="text" name="max_edge" value=""><br><br>
+        <input type="text" name="max_edge" value="0"><br><br>
         grid_rows (int)<br>
-        <input type="text" name="grid_rows" value=""><br><br>
+        <input type="text" name="grid_rows" value="0"><br><br>
         grid_columns (int):<br>
-        <input type="text" name="grid_columns" value=""><br><br>
+        <input type="text" name="grid_columns" value="0"><br><br>
         scaling_constant (int):<br>
-        <input type="text" name="scaling_constant" value=""><br><br>
+        <input type="text" name="scaling_constant" value="0"><br><br>
         scaling_power (int):<br>
-        <input type="text" name="scaling_power" value=""><br><br>
-        <input type="submit" value="Submit">
+        <input type="text" name="scaling_power" value="0"><br><br>
+        <input type="submit" value="Submit" id='image_processing'>
       </form>
   </div>
       
   <div class="column middle" style="background-color:#bbb;">
     <h3>Setting of hyper parameters of the decision making algorithm</h3>
-    <form action="hyper_params/decision" method = "POST" id='decision'>
+    <form action="hyper_params/decision">
         dist_sensitivity (float):<br>
-        <input type="text" name="dist_sensitivity" value=""><br><br>
+        <input type="text" name="dist_sensitivity" value="0"><br><br>
         rpm_sensitivity (float):<br>
-        <input type="text" name="rpm_sensitivity" value=""><br><br>
+        <input type="text" name="rpm_sensitivity" value="0"><br><br>
         catchup_sensitivity (float):<br>
-        <input type="text" name="catchup_sensitivity" value=""><br><br>
+        <input type="text" name="catchup_sensitivity" value="0"><br><br>
         dist_set (float):<br>
-        <input type="text" name="dist_set" value=""><br><br>
+        <input type="text" name="dist_set" value="0"><br><br>
         ball_rad_m (float):<br>
-        <input type="text" name="ball_rad_m" value=""><br><br>
+        <input type="text" name="ball_rad_m" value="0"><br><br>
         turn_sensitivity (float):<br>
-        <input type="text" name="turn_sensitivity" value=""><br><br>
+        <input type="text" name="turn_sensitivity" value="0"><br><br>
         turn_agression (float):<br>
-        <input type="text" name="turn_agression" value=""><br><br>
-        <input type="submit" value="Submit"><br><br>
+        <input type="text" name="turn_aggression" value="0"><br><br>
+        <input type="submit" value="Submit" id='decision'><br><br>
     </form>
 
-    <form action="hyper_params/image_capture" method="POST" id='resolution'>
+    <form action="hyper_params/image_capture">
       image_resolution (int):<br> 
-      <input type="text" name="resolution" value=""><br><br>
-      <input type="submit" value="Submit">
+      <input type="text" name="resolution" value="0"><br><br>
+      <input type="submit" value="Submit" id='resolution'> 
     </form>
     
     <br>
@@ -244,84 +244,6 @@ and use the left and right arrow keys to change the steering of the APV.
 </html>
 
 <script>
-//variables for the speed and angle sliders
-var slider_steering = document.getElementById("steering");
-var slider_speed = document.getElementById("speed")
-var output_steering = document.getElementById("angle");
-var output_speed = document.getElementById("value");
-
-//updating variables for speed and angle sliders
-var current_angle = parseInt(slider_steering.value);
-var current_speed = parseInt(slider_speed.value);
-
-//image_processing parameter variables
-var image_processing_obj = {
-  k_size : document.getElementsByName('k_size'),
-  k_h : document.getElementsByName('k_h'),
-  k_w : document.getElementsByName('k_w'),
-  lead_thresh : document.getElementsByName('lead_thresh'),
-  maxObjs : document.getElementsByName('maxObjs'),
-  thresh : document.getElementsByName('thresh'),
-  min_edge : document.getElementsByName('min_edge'),
-  max_edge : document.getElementsByName('max_edge'),
-  grid_rows : document.getElementsByName('grid_rows'),
-  grid_columns : document.getElementsByName('grid_columns'),
-  scaling_constant : document.getElementsByName('scaling_constant'),
-  scaling_power : document.getElementsByName('scaling_power')
-}; 
-var image_processing_data = JSON.stringify(image_processing_obj); 
-
-//decision_making parameter variables
-var decision_params_obj = {
-  dist_sensitivity : document.getElementsByName('dist_sensitivity'),
-  rpm_sensitivity : document.getElementsByName('rpm_sensitivity'),
-  catchup_sensitivity : document.getElementsByName('catchup_sensitivity'),
-  dist_set : document.getElementsByName('dist_set'),
-  ball_rad_m : document.getElementsByName('ball_rad_m'),
-  turn_sensitivity : document.getElementsByName('turn_sensitivity'),
-  turn_agression : document.getElementsByName('turn_aggression')
-}
-
-var resolution = JSON.stringify(resolution : document.getElementsByName('resolution')) 
-
-/*this code is for submitting requests to the webserver in json format
-for easy readout on the web server side*/
-$('#image_processing').click(function () {
-    $.ajax({
-      type: "POST",
-      url: 'hyper_params/image_processing',
-      data: image_processing_params,
-      success: function () {
-        console.log(data)
-      },
-      dataType: 'json'
-      });
-});
-
-$('#decision').click(function () {
-    $.ajax({
-      type: "POST",
-      url: 'hyper_params/decision',
-      data: decision_params,
-      success: function () {
-        console.log(data)
-      },
-      dataType: 'json'
-      });
-});
-
-$('#resolution').click(function () {
-    $.ajax({
-      type: "POST",
-      url: 'hyper_params/image_capture',
-      data: resolution,
-      success: function () {
-        console.log(data)
-      },
-      dataType: 'json'
-      });
-});
-
 //This code is for updating the data table
 $(document).ready(function () {
   
@@ -330,7 +252,7 @@ $(document).ready(function () {
       url: "get_data",
       type: "GET",
       success: function (data) {
-        console.log(data);
+        //console.log(data);
         var values = data;
         $("#RPM").html(values.rpm);
         $("#ultra_dist").html(values.ultraDist);
@@ -344,6 +266,95 @@ $(document).ready(function () {
     });
   }, 100)
 })  
+
+//variables for the speed and angle sliders
+var slider_steering = document.getElementById("steering");
+var slider_speed = document.getElementById("speed")
+var output_steering = document.getElementById("angle");
+var output_speed = document.getElementById("value");
+
+//updating variables for speed and angle sliders
+var current_angle = parseInt(slider_steering.value);
+var current_speed = parseInt(slider_speed.value);
+
+/*this code is for submitting requests to the webserver in json format
+for easy readout on the web server side*/
+$('#image_processing').click(function () {
+  
+    //image_processing parameter variables
+    var image_processing_obj = {
+      k_size : document.getElementsByName('k_size')[0].value,
+      k_h : document.getElementsByName('k_h')[0].value,
+      k_w : document.getElementsByName('k_w')[0].value,
+      lead_thresh : document.getElementsByName('lead_thresh')[0].value,
+      maxObjs : document.getElementsByName('maxObjs')[0].value,
+      thresh : document.getElementsByName('thresh')[0].value,
+      min_edge : document.getElementsByName('min_edge')[0].value,
+      max_edge : document.getElementsByName('max_edge')[0].value,
+      grid_rows : document.getElementsByName('grid_rows')[0].value,
+      grid_columns : document.getElementsByName('grid_columns')[0].value,
+      scaling_constant : document.getElementsByName('scaling_constant')[0].value,
+      scaling_power : document.getElementsByName('scaling_power')[0].value
+    }; 
+    var image_processing_data = JSON.stringify(image_processing_obj); 
+    console.log(image_processing_data)
+  
+    $.ajax({
+      type: "POST",
+      url: 'hyper_params/image_processing',
+      contentType: "application/json",
+      data: image_processing_data,
+      success: function (image_processing_data) {
+        console.log('posted')
+      }
+      });
+      return false;
+});
+
+$('#decision').click(function () {
+  
+    //decision_making parameter variables
+    var decision_params_obj = {
+      dist_sensitivity : document.getElementsByName('dist_sensitivity')[0].value,
+      rpm_sensitivity : document.getElementsByName('rpm_sensitivity')[0].value,
+      catchup_sensitivity : document.getElementsByName('catchup_sensitivity')[0].value,
+      dist_set : document.getElementsByName('dist_set')[0].value,
+      ball_rad_m : document.getElementsByName('ball_rad_m')[0].value,
+      turn_sensitivity : document.getElementsByName('turn_sensitivity')[0].value,
+      turn_agression : document.getElementsByName('turn_aggression')[0].value
+    }
+    var decision_params_data = JSON.stringify(decision_params_obj); 
+    console.log(decision_params_data)
+    
+    $.ajax({
+      type: "POST",
+      url: 'hyper_params/decision',
+      contentType: "application/json",
+      data: decision_params_data,
+      success: function () {
+        console.log('posted')
+      },
+      });
+      return false;
+});
+
+$('#resolution').click(function () {
+  
+    var resolution_obj = {resolution : document.getElementsByName('resolution')[0].value};
+    var resolution = JSON.stringify(resolution_obj);
+    console.log(resolution)
+    
+    $.ajax({
+      type: "POST",
+      url: 'hyper_params/image_capture',
+      contentType: "application/json",
+      data: resolution,
+      success: function (resolution) {
+        console.log('posted')
+      },
+      });
+      return false;
+});
 
 //add minimum values if statements
 document.onkeydown = function(e) {

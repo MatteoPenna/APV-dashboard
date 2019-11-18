@@ -26,46 +26,46 @@ def on_connect(client, userdata, flags, rc):
 #rotations per min of the motor callback function
 def rpm_callback(client, userdata, message):
     data[0] = int(message.payload)
-    print('RPM : ' + str(data[0]))
+    #print('RPM : ' + str(data[0]))
 
 #distance outputted by ultrasonic callback function
 def distance_callback(client, userdata, message):  
     data[1] = int(message.payload)
-    print('Distance : ' + str(data[1]))
+    #print('Distance : ' + str(data[1]))
 
 #IMU callback 
 def imu_callback(client, userdata, message):
     data[2] = int(message.payload)
-    print('IMU :' + str(data[2]))
+    #print('IMU :' + str(data[2]))
 
 #battery temperature
 def batteryTemp_callback(client, userdata, message):
     data[3] = int(message.payload)
-    print('Battery Temp :' + str(data[3]))
+    #print('Battery Temp :' + str(data[3]))
 
 #current outputted to the motor
 def angularVelocity_callback(client, userdata, message):
     data[4] = int(message.payload)
-    print('Motor Current :' + str(data[4]))
+    #print('Motor Current :' + str(data[4]))
 
 #voltage at the output of the battery
 def batteryVoltage_callback(client, userdata, message):
     data[5] = int(message.payload)
-    print('Battery Voltage :' + str(data[5]))
+    #print('Battery Voltage :' + str(data[5]))
 
 #create function for callback
 def on_publish(client,userdata,result):             
     print("data published \n")
-    pass
 
 #connecting to MCU MQTT endpoint
 broker_address = 'localhost'
-port = 1883
 print('creating new instance')
 client = mqtt.Client()
 print('connecting to broker')
 client.on_connect = on_connect
-client.connect(broker_address, port) #establishing connection
+client.on_publish = on_publish
+client.connect(broker_address) #establishing connection
+client.loop_start()
 
 #waiting for connection
 time.sleep(0.1)
@@ -118,10 +118,10 @@ while True:
     try:
         #Bottle code
         debug(True)
-        @route('/controldash') #binds a piece of code to a url path
+        @route('/dashboard') #binds a piece of code to a url path
         def send_site():
             #function will serve up the control dashboard html page
-            return template('./controldash.tpl')
+            return template('./dashboard-final.tpl')
 
         @route('/js/jquery.min.js')
         def send_jquery():
@@ -148,22 +148,24 @@ while True:
         @route('/hyper_params/decision', method = 'POST')
         def send_decision_params():
             #pulling  values from POST
-            decision_params = request.json()
+            decision_params = request.json
             client.publish("hyper_params/decision",
                 json.dumps(decision_params), retain = True)
+            print(decision_params)
 
         @route('/hyper_params/image_processing', method = 'POST')
         def send_image_processing_params():
-            #pulling values from POST
-            image_processing_params = request.json()
+            #pulling values from POST and publishing them
             client.publish("hyper_params/decision",
-                json.dumps(image_processing_params), retain = True)           
+                json.dumps(request.json), retain = True)
+            print(json.dumps(request.json))           
 
         @route('/hyper_params/image_capture', method = 'POST')   
         def send_image_capture_params():
-            image_capture_params = request.json()
+            image_capture_params = request.json
             client.publish("hyper_params/decision",
                 json.dumps(image_capture_params), retain = True)
+            print(image_capture_params) 
 
         @route('/speed_and_angle', method = 'POST')
         def process_data():
@@ -179,10 +181,6 @@ while True:
         def return_data():
             values_dict = grab_data(data)#grabs values from the data grab function
             return(json.dumps(values_dict))
-
-        @get('/sensordash') #binds a piece of code to a url path
-        def server_static():
-            return template('./dashboard/table.tpl')
 
         run(host='localhost', port=8080, debug = True) #starts a built-in dev server
 
