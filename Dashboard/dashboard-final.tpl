@@ -120,29 +120,29 @@ and use the left and right arrow keys to change the steering of the APV.
 
       <form action="hyper_params/image_processing">
         k_size (int)<br>
-        <input type="text" name="k_size" value="0"><br><br>
+        <input type="text" name="k_size" value="21"><br><br>
         k_h (int):<br>
-        <input type="text" name="k_h" value="0"><br><br>
+        <input type="text" name="k_h" value="40"><br><br>
         k_w (int)<br>
-        <input type="text" name="k_w" value="0"><br><br>
+        <input type="text" name="k_w" value="20"><br><br>
         lead_thresh (int):<br>
-        <input type="text" name="lead_thresh" value="0"><br><br>
+        <input type="text" name="lead_thresh" value="1"><br><br>
         maxObjs (int)<br>
-        <input type="text" name="maxObjs" value="0"><br><br>
+        <input type="text" name="maxObjs" value="1"><br><br>
         thresh (int):<br>
-        <input type="text" name="thresh" value="0"><br><br>
+        <input type="text" name="thresh" value="100"><br><br>
         min_edge (int)<br>
-        <input type="text" name="min_edge" value="0"><br><br>
+        <input type="text" name="min_edge" value="200"><br><br>
         max_edge (int):<br>
-        <input type="text" name="max_edge" value="0"><br><br>
+        <input type="text" name="max_edge" value="600"><br><br>
         grid_rows (int)<br>
-        <input type="text" name="grid_rows" value="0"><br><br>
+        <input type="text" name="grid_rows" value="7"><br><br>
         grid_columns (int):<br>
-        <input type="text" name="grid_columns" value="0"><br><br>
+        <input type="text" name="grid_columns" value="5"><br><br>
         scaling_constant (int):<br>
-        <input type="text" name="scaling_constant" value="0"><br><br>
+        <input type="text" name="scaling_constant" value="1000000000"><br><br>
         scaling_power (int):<br>
-        <input type="text" name="scaling_power" value="0"><br><br>
+        <input type="text" name="scaling_power" value="1.3"><br><br>
         <input type="submit" value="Submit" id='image_processing'>
       </form>
   </div>
@@ -151,25 +151,25 @@ and use the left and right arrow keys to change the steering of the APV.
     <h3>Setting of hyper parameters of the decision making algorithm</h3>
     <form action="hyper_params/decision">
         dist_sensitivity (float):<br>
-        <input type="text" name="dist_sensitivity" value="0"><br><br>
+        <input type="text" name="dist_sensitivity" value="0.2"><br><br>
         rpm_sensitivity (float):<br>
-        <input type="text" name="rpm_sensitivity" value="0"><br><br>
+        <input type="text" name="rpm_sensitivity" value="0.2"><br><br>
         catchup_sensitivity (float):<br>
-        <input type="text" name="catchup_sensitivity" value="0"><br><br>
+        <input type="text" name="catchup_sensitivity" value="0.2"><br><br>
         dist_set (float):<br>
-        <input type="text" name="dist_set" value="0"><br><br>
+        <input type="text" name="dist_set" value="1"><br><br>
         ball_rad_m (float):<br>
-        <input type="text" name="ball_rad_m" value="0"><br><br>
+        <input type="text" name="ball_rad_m" value="0.1"><br><br>
         turn_sensitivity (float):<br>
-        <input type="text" name="turn_sensitivity" value="0"><br><br>
+        <input type="text" name="turn_sensitivity" value="0.2"><br><br>
         turn_agression (float):<br>
-        <input type="text" name="turn_aggression" value="0"><br><br>
+        <input type="text" name="turn_aggression" value="0.2"><br><br>
         <input type="submit" value="Submit" id='decision'><br><br>
     </form>
 
     <form action="hyper_params/image_capture">
       image_resolution (int):<br> 
-      <input type="text" name="resolution" value="0"><br><br>
+      <input type="text" name="resolution" value="128"><br><br>
       <input type="submit" value="Submit" id='resolution'> 
     </form>
     
@@ -283,18 +283,18 @@ $('#image_processing').click(function () {
   
     //image_processing parameter variables
     var image_processing_obj = {
-      k_size : document.getElementsByName('k_size')[0].value,
-      k_h : document.getElementsByName('k_h')[0].value,
-      k_w : document.getElementsByName('k_w')[0].value,
-      lead_thresh : document.getElementsByName('lead_thresh')[0].value,
-      maxObjs : document.getElementsByName('maxObjs')[0].value,
-      thresh : document.getElementsByName('thresh')[0].value,
-      min_edge : document.getElementsByName('min_edge')[0].value,
-      max_edge : document.getElementsByName('max_edge')[0].value,
-      grid_rows : document.getElementsByName('grid_rows')[0].value,
-      grid_columns : document.getElementsByName('grid_columns')[0].value,
-      scaling_constant : document.getElementsByName('scaling_constant')[0].value,
-      scaling_power : document.getElementsByName('scaling_power')[0].value
+      k_size : parseInt(document.getElementsByName('k_size')[0].value),
+      k_h : parseInt(document.getElementsByName('k_h')[0].value),
+      k_w : parseInt(document.getElementsByName('k_w')[0].value),
+      lead_thresh : parseInt(document.getElementsByName('lead_thresh')[0].value),
+      maxObjs : parseInt(document.getElementsByName('maxObjs')[0].value),
+      thresh : parseInt(document.getElementsByName('thresh')[0].value),
+      min_edge : parseInt(document.getElementsByName('min_edge')[0].value),
+      max_edge : parseInt(document.getElementsByName('max_edge')[0].value),
+      grid_rows : parseInt(document.getElementsByName('grid_rows')[0].value),
+      grid_columns : parseInt(document.getElementsByName('grid_columns')[0].value),
+      scaling_constant : parseInt(document.getElementsByName('scaling_constant')[0].value),
+      scaling_power : parseInt(document.getElementsByName('scaling_power')[0].value)
     }; 
     var image_processing_data = JSON.stringify(image_processing_obj); 
     console.log(image_processing_data)
@@ -315,13 +315,13 @@ $('#decision').click(function () {
   
     //decision_making parameter variables
     var decision_params_obj = {
-      dist_sensitivity : document.getElementsByName('dist_sensitivity')[0].value,
-      rpm_sensitivity : document.getElementsByName('rpm_sensitivity')[0].value,
-      catchup_sensitivity : document.getElementsByName('catchup_sensitivity')[0].value,
-      dist_set : document.getElementsByName('dist_set')[0].value,
-      ball_rad_m : document.getElementsByName('ball_rad_m')[0].value,
-      turn_sensitivity : document.getElementsByName('turn_sensitivity')[0].value,
-      turn_agression : document.getElementsByName('turn_aggression')[0].value
+      dist_sensitivity : parseInt(document.getElementsByName('dist_sensitivity')[0].value),
+      rpm_sensitivity : parseInt(document.getElementsByName('rpm_sensitivity')[0].value),
+      catchup_sensitivity : parseInt(document.getElementsByName('catchup_sensitivity')[0].value),
+      dist_set : parseInt(document.getElementsByName('dist_set')[0].value),
+      ball_rad_m : parseInt(document.getElementsByName('ball_rad_m')[0].value),
+      turn_sensitivity : parseInt(document.getElementsByName('turn_sensitivity')[0].value),
+      turn_agression : parseInt(document.getElementsByName('turn_aggression')[0].value)
     }
     var decision_params_data = JSON.stringify(decision_params_obj); 
     console.log(decision_params_data)
@@ -340,7 +340,7 @@ $('#decision').click(function () {
 
 $('#resolution').click(function () {
   
-    var resolution_obj = {resolution : document.getElementsByName('resolution')[0].value};
+    var resolution_obj = {resolution : parseInt(document.getElementsByName('resolution')[0].value)};
     var resolution = JSON.stringify(resolution_obj);
     console.log(resolution)
     
