@@ -185,7 +185,7 @@ and use the left and right arrow keys to change the steering of the APV.
     <div class="slidecontainer">
       <input type="range" min="-45" max="45" value="0" class="slider" id="steering">
       <p>Turning Angle (servo angle in degrees): <span id="angle"></span></p>
-    </div>
+  </div>
 
     <h2>Speed Control</h2>
     <div class="slidecontainer">
@@ -196,48 +196,79 @@ and use the left and right arrow keys to change the steering of the APV.
     <br>
     
     <div>
-      <table class="tg" style="undefined;table-layout: fixed; width: 549px">
-      <colgroup>
-      <col style="width: 263px">
-      <col style="width: 286px">
-      </colgroup>
-        <tr>
-        <th class="tg-c3ow">Sensor</th>
-        <th class="tg-c3ow">Value</th>
-        </tr>
-        <tr>
-        <td class="tg-0pky">RPM</td>
-        <td class="tg-0pky" id="RPM"></td>
-        </tr>
-        <tr>
-        <td class="tg-0pky">Ultrasonic Distance</td>
-        <td class="tg-0pky" id="ultra_dist"></td>
-        </tr>
-        <tr>
-        <td class="tg-0pky">Speed</td>
-        <td class="tg-0pky" id="speed"></td>
-        </tr>
-        <tr>
-        <td class="tg-0lax">Acceleration</td>
-        <td class="tg-0lax" id="acceleration"></td>
-        </tr>
-        <tr>
-        <td class="tg-0lax">Battery Temperature</td>
-        <td class="tg-0lax" id="batteryTemp"></td>
-        </tr>
-        <tr>
-        <td class="tg-0lax">Angular Velocity</td>
-        <td class="tg-0lax" id="angularVelocity"></td>
-        </tr>
-        <tr>
-        <td class="tg-0lax">Battery Output Voltage</td>
-        <td class="tg-0lax" id="batteryVoltage"></td>
-        </tr>
-      </table>
-    </div>
+      <div class="row">
+        <div class="column">
+          <table class="tg" style="undefined;table-layout: fixed; width: 400px">
+          <colgroup>
+          <col style="width: 200px">
+          <col style="width: 200px">
+          </colgroup>
+            <tr>
+            <th class="tg-c3ow">Sensor</th>
+            <th class="tg-c3ow">Value</th>
+            </tr>
+            <tr>
+            <td class="tg-0pky">RPM</td>
+            <td class="tg-0pky" id="RPM"></td>
+            </tr>
+            <tr>
+            <td class="tg-0pky">Ultrasonic Distance</td>
+            <td class="tg-0pky" id="ultra_dist"></td>
+            </tr>
+            <tr>
+            <td class="tg-0pky">Speed</td>
+            <td class="tg-0pky" id="speed"></td>
+            </tr>
+            <tr>
+            <td class="tg-0lax">Acceleration</td>
+            <td class="tg-0lax" id="acceleration"></td>
+            </tr>
+            <tr>
+            <td class="tg-0lax">Battery Temperature</td>
+            <td class="tg-0lax" id="batteryTemp"></td>
+            </tr>
+            <tr>
+            <td class="tg-0lax">Angular Velocity</td>
+            <td class="tg-0lax" id="angularVelocity"></td>
+            </tr>
+            <tr>
+            <td class="tg-0lax">Battery Output Voltage</td>
+            <td class="tg-0lax" id="batteryVoltage"></td>
+            </tr>
+          </table>
+        </div>
+        <div class="column">
+          <style type="text/css">
+          .tg  {border-collapse:collapse;border-spacing:0;}
+          .tg td{font-family:Arial, sans-serif;font-size:14px;padding:14px 20px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;border-color:black;}
+          .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:14px 20px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;border-color:black;}
+          .tg .tg-farn{background-color:#9db4f7;color:#000000;border-color:inherit;text-align:left;vertical-align:top}
+          .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+          .tg .tg-73oq{border-color:#000000;text-align:left;vertical-align:top}
+          </style>
+          <table class="tg">
+            <tr>
+              <th class="tg-farn">Value</th>
+              <th class="tg-farn" >Algorithm Output</th>
+            </tr>
+            <tr>
+              <td class="tg-73oq">RPM</td>
+              <td class="tg-c3ow" id="rpm"></td>
+            </tr>
+            <tr>
+              <td class="tg-73oq">Current Distance</td>
+              <td class="tg-c3ow" id='current_distance'></td>
+            </tr>
+            <tr>
+              <td class="tg-73oq">Current Angle</td>
+              <td class="tg-c3ow" id='current_angle'></td>
+            </tr>
+            </table>
+        </div>
+      </div>
 
+    </div>
   </div>
-</div>
 
 
 </body>
@@ -249,7 +280,7 @@ $(document).ready(function () {
   
   var auto_refresh = setInterval(function () {
     $.ajax({
-      url: "get_data",
+      url: "get_sensor_data",
       type: "GET",
       success: function (data) {
         //console.log(data);
@@ -261,6 +292,24 @@ $(document).ready(function () {
         $("#batteryTemp").html(values.batteryTemp);
         $("#batteryVoltage").html(values.batteryVoltage);
         $("#angularVelocity").html(values.angularVelocity);
+      },
+      dataType: 'json'
+    });
+  }, 100)
+})
+
+$(document).ready(function () {
+  
+  var auto_refresh = setInterval(function () {
+    $.ajax({
+      url: "algorithm_outputs",
+      type: "GET",
+      success: function (data) {
+        console.log(data);
+        var values = data;
+        $("#rpm").html(values.rpm);
+        $("#current_distance").html(values.current_distance);
+        $("#current_angle").html(values.current_angle);
       },
       dataType: 'json'
     });
