@@ -24,12 +24,12 @@ def on_connect(client, userdata, flags, rc):
 
 #rotations per min of the motor callback function
 def rpm_callback(client, userdata, message):
-    sensor_data[0] = int(message.payload)
+    sensor_data[0] = message.payload.decode('ascii')
     #print('RPM : ' + str(sensor_data[0]))
 
 #distance outputted by ultrasonic callback function
 def distance_callback(client, userdata, message):  
-    sensor_data[1] = int(message.payload)
+    sensor_data[1] = message.payload.decode('ascii').split(',')
     #print('Distance : ' + str(sensor_data[1]))
 
 #IMU callback 
@@ -39,17 +39,17 @@ def imu_callback(client, userdata, message):
 
 #battery temperature
 def batteryTemp_callback(client, userdata, message):
-    sensor_data[3] = int(message.payload)
+    sensor_data[3] = message.payload.decode('ascii').split(',')
     #print('Battery Temp :' + str(sensor_data[3]))
 
-#current outputted to the motor
+#angular velocity of the APV
 def angularVelocity_callback(client, userdata, message):
-    sensor_data[4] = int(message.payload)
+    sensor_data[4] = message.payload.decode('ascii')
     #print('Motor Current :' + str(sensor_data[4]))
 
 #voltage at the output of the battery
 def batteryVoltage_callback(client, userdata, message):
-    sensor_data[5] = int(message.payload)
+    sensor_data[5] = message.payload.decode('ascii')
     #print('Battery Voltage :' + str(sensor_data[5]))
 
 #returns the outputted rpm value from the driving algorithm   
@@ -192,7 +192,11 @@ def web_server():
             'current_angle' : current_vals[2]}
         return(json.dumps(dump))
 
-    run(host='localhost', port=8080, debug = True) #starts a built-in dev server
+    @post('/off')
+    def off(): 
+        client.publish("command/wheel_speed", 0, retain = True)
+
+    run(host='0.0.0.0', port=8080, debug = True) #starts a built-in dev server
     
 if __name__ == '__main__':
     #connects and starts mqtt client

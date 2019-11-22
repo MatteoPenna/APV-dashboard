@@ -18,7 +18,7 @@
   font-size: 24px;
 }
 
-.buttonstop {
+.buttonkill {
     background-color: #FF0000; /* Red */
     border: none;
     color: white;
@@ -29,6 +29,18 @@
     margin: 4px 2px;
     cursor: pointer;
     font-size: 24px;}
+    
+.buttonstop {
+      background-color: #FFD700; /* Red */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      margin: 4px 2px;
+      cursor: pointer;
+      font-size: 24px;}
 
 .slidecontainer {
   width: 100%;
@@ -176,8 +188,13 @@ and use the left and right arrow keys to change the steering of the APV.
     <br>
     
     <form action="killed" method = "POST">
-      <button class="button buttonstop" id="kill">Kill</button>
+      <button class="button buttonkill" id="kill">Kill</button>
     </form>
+    
+    <form action="off" >
+      <button class="button buttonstop" id='stop'>Stop</button>
+    </form>
+    
   </div>
   
   <div class="column right">
@@ -189,7 +206,7 @@ and use the left and right arrow keys to change the steering of the APV.
 
     <h2>Speed Control</h2>
     <div class="slidecontainer">
-      <input type='range' min='-5' max='15' value='0' class='slider' id="speed">
+      <input type='range' min='-50' max='50' value='0' class='slider' id="speed">
       <p>Speed (in km/h): <span id="value"></span></p>
     </div>
     
@@ -298,6 +315,28 @@ $(document).ready(function () {
   }, 100)
 })
 
+//code for disabling the use of the arrow keys on the page
+window.addEventListener("keydown", function(e) {
+  // space and arrow keys
+  if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+    e.preventDefault();
+  }
+}, false);
+
+/*checking for click of the stop button which will trigger webserver command 
+to set the rpm to 0*/
+$('#off').click( function() {
+  $.ajax({
+    url: 'off',
+    type: 'POST',
+    data: null,
+    success: function() {
+          console.log("stopped")
+         }
+  });
+});
+
+//get requests for the algorithm outputs
 $(document).ready(function () {
   
   var auto_refresh = setInterval(function () {
@@ -326,8 +365,17 @@ var output_speed = document.getElementById("value");
 var current_angle = parseInt(slider_steering.value);
 var current_speed = parseInt(slider_speed.value);
 
-/*this code is for submitting requests to the webserver in json format
-for easy readout on the web server side*/
+//this will change the steering value if the slider is moved
+slider_steering.oninput = function(){
+output_steering.innerHTML = this.value;
+}
+
+slider_speed.oninput = function() {
+output_speed.innerHTML = this.value;
+}
+
+/*this code is for submitting requests to the webserver in 
+json format for easy readout on the web server side*/
 $('#image_processing').click(function () {
   
     //image_processing parameter variables
@@ -347,7 +395,8 @@ $('#image_processing').click(function () {
     }; 
     var image_processing_data = JSON.stringify(image_processing_obj); 
     console.log(image_processing_data)
-  
+
+    //posting data to webserver
     $.ajax({
       type: "POST",
       url: 'hyper_params/image_processing',
@@ -375,6 +424,7 @@ $('#decision').click(function () {
     var decision_params_data = JSON.stringify(decision_params_obj); 
     console.log(decision_params_data)
     
+    //posting data to webserver
     $.ajax({
       type: "POST",
       url: 'hyper_params/decision',
@@ -387,6 +437,7 @@ $('#decision').click(function () {
       return false;
 });
 
+//posting new resolution data
 $('#resolution').click(function () {
   
     var resolution_obj = {resolution : parseInt(document.getElementsByName('resolution')[0].value)};
@@ -405,30 +456,30 @@ $('#resolution').click(function () {
       return false;
 });
 
-//add minimum values if statements
+//switch case to check for wasd keys
 document.onkeydown = function(e) {
   
   switch (e.keyCode) {
-    case 37:
-      //left;
-      current_angle -= 2;
+    case 65:
+      //left (D);
+      current_angle -= 4;
       slider_steering.value = current_angle;
       console.log(current_angle);
       break;
-    case 38:
-      //up;
+    case 87:
+      //up (W);
       current_speed += 0.5;
       slider_speed.value = current_speed;
       console.log(current_speed);
       break;
-    case 39:
-      //right;
-      current_angle += 2;
+    case 68:
+      //right (A);
+      current_angle += 4;
       slider_steering.value = current_angle;
       console.log(current_angle);
       break;
-    case 40:
-      //down;
+    case 83:
+      //down (S);
       current_speed -= 0.5;
       slider_speed.value = current_speed;
       console.log(current_speed);
@@ -445,22 +496,6 @@ document.onkeydown = function(e) {
       
 };
 
-
-/*
-      slider_steering.oninput = function(){
-      output_steering.innerHTML = this.value;
-      }
-
-      slider_speed.oninput = function() {
-      output_speed.innerHTML = this.value;
-      }
-*/      
-
-/*
-$.post('localhost:8080/speed_and_angle', {
-    speed : String(slider_speed)
-    angle : String(slider_steering)
-    })
-*/
+    
 
 </script> 
