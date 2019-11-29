@@ -191,7 +191,7 @@ and use the left and right arrow keys to change the steering of the APV.
       <button class="button buttonkill" id="kill">Kill</button>
     </form>
     
-    <form action="off" >
+    <form action="" >
       <button class="button buttonstop" id='stop'>Stop</button>
     </form>
     
@@ -334,6 +334,7 @@ $('#off').click( function() {
           console.log("stopped")
          }
   });
+  return false; 
 });
 
 //get requests for the algorithm outputs
