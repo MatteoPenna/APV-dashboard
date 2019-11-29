@@ -163,7 +163,7 @@ and use the left and right arrow keys to change the steering of the APV.
     <h3>Setting of hyper parameters of the decision making algorithm</h3>
     <form action="hyper_params/decision">
         dist_sensitivity (float):<br>
-        <input type="text" name="dist_sensitivity" value="0.2"><br><br>
+        <input type="text" name="dist_sensitivity" value="0.3"><br><br>
         rpm_sensitivity (float):<br>
         <input type="text" name="rpm_sensitivity" value="0.2"><br><br>
         catchup_sensitivity (float):<br>
@@ -207,7 +207,7 @@ and use the left and right arrow keys to change the steering of the APV.
     <h2>Speed Control</h2>
     <div class="slidecontainer">
       <input type='range' min='-50' max='50' value='0' class='slider' id="speed">
-      <p>Speed (in km/h): <span id="value"></span></p>
+      <p>Speed (in rotations per second): <span id="value"></span></p>
     </div>
     
     <br>
@@ -380,18 +380,18 @@ $('#image_processing').click(function () {
   
     //image_processing parameter variables
     var image_processing_obj = {
-      k_size : parseInt(document.getElementsByName('k_size')[0].value),
-      k_h : parseInt(document.getElementsByName('k_h')[0].value),
-      k_w : parseInt(document.getElementsByName('k_w')[0].value),
-      lead_thresh : parseInt(document.getElementsByName('lead_thresh')[0].value),
-      maxObjs : parseInt(document.getElementsByName('maxObjs')[0].value),
-      thresh : parseInt(document.getElementsByName('thresh')[0].value),
-      min_edge : parseInt(document.getElementsByName('min_edge')[0].value),
-      max_edge : parseInt(document.getElementsByName('max_edge')[0].value),
-      grid_rows : parseInt(document.getElementsByName('grid_rows')[0].value),
-      grid_columns : parseInt(document.getElementsByName('grid_columns')[0].value),
-      scaling_constant : parseInt(document.getElementsByName('scaling_constant')[0].value),
-      scaling_power : parseInt(document.getElementsByName('scaling_power')[0].value)
+      k_size : parseFloat(document.getElementsByName('k_size')[0].value),
+      k_h : parseFloat(document.getElementsByName('k_h')[0].value),
+      k_w : parseFloat(document.getElementsByName('k_w')[0].value),
+      lead_thresh : parseFloat(document.getElementsByName('lead_thresh')[0].value),
+      maxObjs : parseFloat(document.getElementsByName('maxObjs')[0].value),
+      thresh : parseFloat(document.getElementsByName('thresh')[0].value),
+      min_edge : parseFloat(document.getElementsByName('min_edge')[0].value),
+      max_edge : parseFloat(document.getElementsByName('max_edge')[0].value),
+      grid_rows : parseFloat(document.getElementsByName('grid_rows')[0].value),
+      grid_columns : parseFloat(document.getElementsByName('grid_columns')[0].value),
+      scaling_constant : parseFloat(document.getElementsByName('scaling_constant')[0].value),
+      scaling_power : parseFloat(document.getElementsByName('scaling_power')[0].value)
     }; 
     var image_processing_data = JSON.stringify(image_processing_obj); 
     console.log(image_processing_data)
@@ -413,13 +413,13 @@ $('#decision').click(function () {
   
     //decision_making parameter variables
     var decision_params_obj = {
-      dist_sensitivity : parseInt(document.getElementsByName('dist_sensitivity')[0].value),
-      rpm_sensitivity : parseInt(document.getElementsByName('rpm_sensitivity')[0].value),
-      catchup_sensitivity : parseInt(document.getElementsByName('catchup_sensitivity')[0].value),
-      dist_set : parseInt(document.getElementsByName('dist_set')[0].value),
-      ball_rad_m : parseInt(document.getElementsByName('ball_rad_m')[0].value),
-      turn_sensitivity : parseInt(document.getElementsByName('turn_sensitivity')[0].value),
-      turn_agression : parseInt(document.getElementsByName('turn_aggression')[0].value)
+      dist_sensitivity : parseFloat(document.getElementsByName('dist_sensitivity')[0].value),
+      rpm_sensitivity : parseFloat(document.getElementsByName('rpm_sensitivity')[0].value),
+      catchup_sensitivity : parseFloat(document.getElementsByName('catchup_sensitivity')[0].value),
+      dist_set : parseFloat(document.getElementsByName('dist_set')[0].value),
+      ball_rad_m : parseFloat(document.getElementsByName('ball_rad_m')[0].value),
+      turn_sensitivity : parseFloat(document.getElementsByName('turn_sensitivity')[0].value),
+      turn_agression : parseFloat(document.getElementsByName('turn_aggression')[0].value)
     }
     var decision_params_data = JSON.stringify(decision_params_obj); 
     console.log(decision_params_data)
