@@ -187,13 +187,9 @@ and use the left and right arrow keys to change the steering of the APV.
     
     <br>
     
-    <form action="killed" method = "POST">
-      <button class="button buttonkill" id="kill">Kill</button>
-    </form>
-    
-    <form action="off" method="POST">
-      <button class="button buttonstop" id='stop'>Stop</button>
-    </form>
+    <button class="button buttonkill" id="kill">Kill</button>
+
+    <button class="button buttonstop" id='stop'>Stop</button>
     
   </div>
   
@@ -295,13 +291,33 @@ and use the left and right arrow keys to change the steering of the APV.
 
 $(function () {
   $("#kill").click(function (e) {
+    
     e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: 'killed',
+      data: null,
+      success: function () {
+        console.log('killed')
+      }
+      });
+      return false;
   });
 });
 
 $(function () {
   $("#stop").click(function (e) {
+    
     e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: 'off',
+      data: null,
+      success: function () {
+        console.log('stopped')
+      }
+      });
+      return false;
   });
 });
 

@@ -3,6 +3,7 @@ import paho.mqtt.client as mqtt
 import time
 import json
 import sys
+import os
 
 #-----------------------#
 #BEGINNING OF MQTT CODE
