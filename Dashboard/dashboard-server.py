@@ -100,7 +100,7 @@ def grab_data(sensor_data):
     batteryTemp = sensor_data[3]
     angularVelocity = sensor_data[4]
     batteryVoltage = sensor_data[5]
-    speed = R_wheel*rpm/60 #calculating linear speed from RPM
+    speed = 10 #R_wheel*rpm/60 #calculating linear speed from RPM
  
     #setting up a dictionary using keyword arguments to pass the updated
     #values into the HTML template
@@ -133,40 +133,28 @@ def web_server():
     @route('/killed', method = 'POST')
     def send_killed():
         #publishing kill command
-        client.publish("command/power", 0, retain = True) #publish to speed
-        return '''
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <!--<meta http-equiv="refresh" content="2; url=http://localhost:8080/controldash">-->
-                </head>
-                <body>
-                <div>
-                APV has been killed.
-                </div>
-                </body>
-                </html>
-                '''
+        client.publish("command/power", 0) #publish to power
+   
     @route('/hyper_params/decision', method = 'POST')
     def send_decision_params():
         #pulling  values from POST
         decision_params = request.json
         client.publish("hyper_params/decision",
-            json.dumps(decision_params), retain = True)
+            json.dumps(decision_params))
         print(decision_params)
 
     @route('/hyper_params/image_processing', method = 'POST')
     def send_image_processing_params():
         #pulling values from POST and publishing them
         client.publish("hyper_params/image_processing",
-            json.dumps(request.json), retain = True)
+            json.dumps(request.json))
         print(json.dumps(request.json))           
 
     @route('/hyper_params/image_capture', method = 'POST')   
     def send_image_capture_params():
         image_capture_params = request.json
         client.publish("hyper_params/resolution",
-            json.dumps(image_capture_params), retain = True)
+            json.dumps(image_capture_params))
         print(image_capture_params) 
 
     @route('/speed_and_angle', method = 'POST')
@@ -176,8 +164,8 @@ def web_server():
         speed = request.forms.get('speed') #in km/h
         print(speed,angle)
         #process html form and publish data to mqtt
-        client.publish("command/wheel_speed", speed, retain = True) #publish to speed
-        client.publish("command/steering", angle, retain = True) #publish to steering
+        client.publish("command/wheel_speed", speed) #publish to speed
+        client.publish("command/steering", angle) #publish to steering
 
     @get('/get_sensor_data')
     def return_sensor_data():
@@ -192,9 +180,9 @@ def web_server():
             'current_angle' : current_vals[2]}
         return(json.dumps(dump))
 
-    @post('/off')
+    @route('/off', method="POST")
     def off(): 
-        client.publish("command/wheel_speed", 0, retain = True)
+        client.publish("command/wheel_speed", 0)
 
     run(host='0.0.0.0', port=8080, debug = True) #starts a built-in dev server
     

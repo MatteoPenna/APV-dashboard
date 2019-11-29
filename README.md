@@ -1,3 +1,3 @@
 # APV-dashboard
 
-Code for the sensor dashboard and the control dashboard. Web server is implemented using Bottle.
+Code for the APV dashboard. Web server is implemented using Bottle. Used jQuery for asynchronous communications.

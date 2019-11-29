@@ -191,7 +191,7 @@ and use the left and right arrow keys to change the steering of the APV.
       <button class="button buttonkill" id="kill">Kill</button>
     </form>
     
-    <form action="" >
+    <form action="off" method="POST">
       <button class="button buttonstop" id='stop'>Stop</button>
     </form>
     
@@ -292,6 +292,19 @@ and use the left and right arrow keys to change the steering of the APV.
 </html>
 
 <script>
+
+$(function () {
+  $("#kill").click(function (e) {
+    e.preventDefault();
+  });
+});
+
+$(function () {
+  $("#stop").click(function (e) {
+    e.preventDefault();
+  });
+});
+
 //This code is for updating the data table
 $(document).ready(function () {
   
@@ -322,20 +335,6 @@ window.addEventListener("keydown", function(e) {
     e.preventDefault();
   }
 }, false);
-
-/*checking for click of the stop button which will trigger webserver command 
-to set the rpm to 0*/
-$('#off').click( function() {
-  $.ajax({
-    url: 'off',
-    type: 'POST',
-    data: null,
-    success: function() {
-          console.log("stopped")
-         }
-  });
-  return false; 
-});
 
 //get requests for the algorithm outputs
 $(document).ready(function () {
@@ -469,7 +468,7 @@ document.onkeydown = function(e) {
       break;
     case 87:
       //up (W);
-      current_speed += 0.5;
+      current_speed += 1;
       slider_speed.value = current_speed;
       console.log(current_speed);
       break;
@@ -481,7 +480,7 @@ document.onkeydown = function(e) {
       break;
     case 83:
       //down (S);
-      current_speed -= 0.5;
+      current_speed -= 1;
       slider_speed.value = current_speed;
       console.log(current_speed);
       break;
