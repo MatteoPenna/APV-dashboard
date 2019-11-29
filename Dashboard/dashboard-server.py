@@ -123,12 +123,13 @@ def web_server():
     @route('/dashboard') #binds a piece of code to a url path
     def send_site():
         #function will serve up the control dashboard html page
-        return template('./dashboard-final.tpl')
+        return template(os.path.dirname(os.path.realpath(__file__)) + '/dashboard-final.tpl')
+
 
     @route('/js/jquery.min.js')
     def send_jquery():
         #function serving jquery code
-        return static_file('/jquery.min.js', root = './js')
+        return static_file('/jquery.min.js', root = os.path.dirname(os.path.realpath(__file__)) + '/js')
 
     @route('/killed', method = 'POST')
     def send_killed():
