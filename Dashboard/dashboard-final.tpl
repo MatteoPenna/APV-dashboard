@@ -121,9 +121,9 @@
 </head>
 <body>
 
-<h1> APV Control Dash</h1>
-<p> Use the up and down arrow keys to control the speed of the APV 
-and use the left and right arrow keys to change the steering of the APV.
+<h1> APV Dashboard</h1>
+<p> Use the A and S keys to control the speed of the APV 
+and use the A and D keys to change the steering of the APV. Pressing the space bar will cause the car to stop.
 </p>
 
 <div class="row">
@@ -289,6 +289,7 @@ and use the left and right arrow keys to change the steering of the APV.
 
 <script>
 
+//code to handle kill button click
 $(function () {
   $("#kill").click(function (e) {
     
@@ -305,6 +306,7 @@ $(function () {
   });
 });
 
+//code to handle button click on the stop button
 $(function () {
   $("#stop").click(function (e) {
     
@@ -320,6 +322,23 @@ $(function () {
       return false;
   });
 });
+
+//js code to stop the car if the space bar is pressed
+document.body.onkeydown = function(e) {
+  if (e.keyCode == 32 || e.keyCode == 13){
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: 'off',
+      data: null,
+      success: function () {
+        console.log('stopped')
+      }
+      });
+      return false;
+  }
+};
+
 
 //This code is for updating the data table
 $(document).ready(function () {
@@ -360,7 +379,7 @@ $(document).ready(function () {
       url: "algorithm_outputs",
       type: "GET",
       success: function (data) {
-        console.log(data);
+        //console.log(data);
         var values = data;
         $("#rpm").html(values.rpm);
         $("#current_distance").html(values.current_distance);
@@ -480,25 +499,25 @@ document.onkeydown = function(e) {
       //left (D);
       current_angle -= 4;
       slider_steering.value = current_angle;
-      console.log(current_angle);
+      //console.log(current_angle);
       break;
     case 87:
       //up (W);
       current_speed += 1;
       slider_speed.value = current_speed;
-      console.log(current_speed);
+      //console.log(current_speed);
       break;
     case 68:
       //right (A);
       current_angle += 4;
       slider_steering.value = current_angle;
-      console.log(current_angle);
+      //console.log(current_angle);
       break;
     case 83:
       //down (S);
       current_speed -= 1;
       slider_speed.value = current_speed;
-      console.log(current_speed);
+      //console.log(current_speed);
       break;
       }
       

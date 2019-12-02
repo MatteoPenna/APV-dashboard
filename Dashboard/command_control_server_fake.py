@@ -55,6 +55,6 @@ while True:
             client.publish('telemetry/' + valueName[i], values[i], retain=True)
 
         client.publish('program_outputs/current_values', json.dumps(outputted), retain=True)
-        print(outputted)
-        print(values)
+        #print(outputted)
+        #print(values)
 
